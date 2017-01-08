@@ -1,7 +1,19 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: daryakiryanova
- * Date: 07.01.17
- * Time: 21:34
- */
+
+include './../autoload.php';
+
+use Blog\App\View;
+
+$uri = $_SERVER['REQUEST_URI'];
+$view = new View();
+
+switch ($uri)
+{
+	case '/':
+		echo $view->render('index');
+		break;
+
+	case '/about':
+		echo $view->render('about');
+		break;
+}
