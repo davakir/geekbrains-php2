@@ -52,3 +52,11 @@ DROP TABLE tags;
 DROP TABLE articles;
 DROP TABLE users;
 DROP TABLE roles;
+
+# Add default role
+INSERT INTO roles VALUES (0, 'anonymous');
+UPDATE roles SET id = 0;
+
+# Add default user
+INSERT INTO users VALUES (0, 'anon', '123456', 'anonymous@gmail.com', 0);
+UPDATE users SET id = 0;

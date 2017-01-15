@@ -5,7 +5,7 @@ namespace Blog\Db\PostgreSql;
 use Blog\Db\IDbAdapter;
 use Blog\Db\DbConfiguration;
 
-class PostgreSql implements IDbAdapter
+class PostgreSqlAdapter implements IDbAdapter
 {
 	/**
 	 * Конфигуратор для подключения к БД
@@ -62,5 +62,25 @@ class PostgreSql implements IDbAdapter
 	public function closeConnect()
 	{
 		// TODO: Implement closeConnect() method.
+	}
+	
+	public function select($table)
+	{
+		// TODO: Implement select() method.
+	}
+	
+	public function insert($table, array $data)
+	{
+		// TODO: Implement insert() method.
+	}
+	
+	public function update($table, array $options)
+	{
+		// TODO: Implement update() method.
+	}
+	
+	public function where(array $options)
+	{
+		// TODO: Implement where() method.
 	}
 }

@@ -1,2 +1,5 @@
 .idea
 .vagrant
+*.log
+.sass-cache
+log
