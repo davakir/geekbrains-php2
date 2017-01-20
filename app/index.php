@@ -5,7 +5,6 @@ include './../autoload.php';
 use Blog\App\Application;
 use Controller\Route;
 
-$uri = $_SERVER['REQUEST_URI'];
 $app = new Application();
 $route = new Route();
 
@@ -33,4 +32,4 @@ $app->post('/login/send', function () use ($route) {
 	return $route->doLogin();
 });
 
-$app->run();
+$app->run(new \Layout\MainLayout());

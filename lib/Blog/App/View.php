@@ -7,6 +7,8 @@ class View
 {
 	private $__viewsPath;
 	
+	private $__title;
+	
 	public function __construct()
 	{
 		$this->__viewsPath = dirname(__FILE__, 4) . '/app/views/';
@@ -18,6 +20,16 @@ class View
 		ob_start();
 		include $this->__findTemplate($template);
 		return ob_get_clean();
+	}
+	
+	public function setTitle($title)
+	{
+		$this->__title = $title;
+	}
+	
+	public function getTitle()
+	{
+		return $this->__title;
 	}
 	
 	private function __findTemplate($template)

@@ -1,6 +1,8 @@
 <?php
 
 namespace Blog\App;
+use Layout\ILayout;
+use Layout\Main;
 
 /**
  * Main application class that provides opportunities
@@ -15,15 +17,15 @@ class Application
 	
 	public function get($route, $handler)
 	{
-		$this->append('GET', $route, $handler);
+		$this->__append('GET', $route, $handler);
 	}
 	
 	public function post($route, $handler)
 	{
-		$this->append('POST', $route, $handler);
+		$this->__append('POST', $route, $handler);
 	}
 	
-	public function run()
+	public function run(ILayout $layout)
 	{
 		$uri = $_SERVER['REQUEST_URI'];
 		$method = $_SERVER['REQUEST_METHOD'];
@@ -35,12 +37,12 @@ class Application
 			
 			if ($method == $handlerMethod && preg_match("/^$preparedRoute$/i", $uri))
 			{
-				echo $handler();
+				$layout->drawLayout($handler());
 			}
 		}
 	}
 	
-	private function append($method, $route, $handler)
+	private function __append($method, $route, $handler)
 	{
 		$this->__handlers[] = [$route, $method, $handler];
 	}

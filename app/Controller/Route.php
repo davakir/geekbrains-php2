@@ -22,17 +22,26 @@ class Route
 	
 	public function index()
 	{
-		return $this->__view->render('index');
+		return [
+			'content' => $this->__view->render('index'),
+			'title' => 'Главная страница'
+		];
 	}
 	
 	public function about()
 	{
-		return $this->__view->render('about');
+		return [
+			'content' => $this->__view->render('about'),
+			'title' => 'Обо мне'
+		];
 	}
 	
 	public function createArticle()
 	{
-		return $this->__view->render('new-article');
+		return [
+			'content' => $this->__view->render('new-article'),
+			'title' => 'Создание статьи'
+		];
 	}
 	
 	public function doCreateArticle()
