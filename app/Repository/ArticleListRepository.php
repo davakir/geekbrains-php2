@@ -1,9 +1,11 @@
 <?php
 
-namespace Model\Articles;
+namespace Repository\Articles;
 
 
-class ArticleList
+use Model\Articles\Article;
+
+class ArticleListRepository
 {
 	protected $articleList = [];
 	

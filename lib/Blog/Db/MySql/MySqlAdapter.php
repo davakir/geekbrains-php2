@@ -15,7 +15,6 @@ class MySqlAdapter implements IDbAdapter
 	private $__dbConfig;
 	/**
 	 * Database server name.
-	 *
 	 * @var string
 	 */
 	private $__dsn;
@@ -25,15 +24,20 @@ class MySqlAdapter implements IDbAdapter
 	 * @var \PDO
 	 */
 	private $__connect;
-	
-	/**
-	 * @var PdoStatementErrorInfo
-	 */
-	private $__pdoErrorInfo;
 	/**
 	 * @var \PDOStatement
 	 */
 	private $__pdoStatement;
+	/**
+	 * Query made of select(), update() or delete() adapter methods.
+	 * @var string
+	 */
+	private $__query;
+	/**
+	 * No comments.
+	 * @var string
+	 */
+	private $__where;
 	
 	/**
 	 * Initialize adapter with getting db configurations
@@ -50,6 +54,17 @@ class MySqlAdapter implements IDbAdapter
 			';dbname=' . $this->__dbConfig['db_name'];
 	}
 	
+	/**
+	 * MySqlAdapter destructor.
+	 */
+	public function __destruct()
+	{
+		$this->closeConnect();
+	}
+	
+	/**
+	 * @return \PDO
+	 */
 	public function connect()
 	{
 		if (!$this->__connect)
@@ -57,7 +72,8 @@ class MySqlAdapter implements IDbAdapter
 			$this->__connect = new \PDO(
 				$this->__dsn,
 				$this->__dbConfig['db_user'],
-				$this->__dbConfig['db_password']
+				$this->__dbConfig['db_password'],
+				array(\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'')
 			);
 		}
 		
@@ -66,7 +82,8 @@ class MySqlAdapter implements IDbAdapter
 	
 	public function closeConnect()
 	{
-		// TODO: Implement closeConnect() method.
+		$this->__pdoStatement = null;
+		$this->__connect = null;
 	}
 	
 	/**
@@ -88,24 +105,42 @@ class MySqlAdapter implements IDbAdapter
 		return $this;
 	}
 	
+	/**
+	 * @return array
+	 */
 	public function fetch()
+	{
+		return $this->__pdoStatement->fetch(\PDO::FETCH_ASSOC);
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function fetchAll()
 	{
 		return $this->__pdoStatement->fetchAll();
 	}
 	
+	/**
+	 * @return string
+	 */
 	public function fetchColumn()
 	{
-		// TODO: Implement fetchColumn() method.
+		return $this->__pdoStatement->fetchColumn();
 	}
 	
-	public function fetchObject()
+	/**
+	 * @param $className
+	 * @return mixed
+	 */
+	public function fetchObject($className)
 	{
-		// TODO: Implement fetchObject() method.
+		return $this->__pdoStatement->fetchObject($className);
 	}
 	
 	public function select($table, array $fields = [])
 	{
-		return $this;
+		// TODO: implement method
 	}
 	
 	/**
@@ -131,11 +166,25 @@ class MySqlAdapter implements IDbAdapter
 		return $info->getErrorMessage();
 	}
 	
+	/**
+	 * @param $table -- Название таблицы
+	 * @param array $options -- Данные для обновления
+	 */
 	public function update($table, array $options = [])
 	{
 		// TODO: Implement update() method.
 	}
 	
+	/**
+	 * Нужно принимать $options в формате:
+	 * [
+	 *      'and' = ['key' => 'val', 'key1' => 'val1', 'key2' => 'val2'],
+	 *      'or' = ['key' => 'val', 'key1' => 'val1', 'key2' => 'val2']
+	 * ]
+	 *
+	 * @param array $options
+	 * @return $this
+	 */
 	public function where(array $options)
 	{
 		$where = [];
@@ -145,6 +194,14 @@ class MySqlAdapter implements IDbAdapter
 		$this->__query .= ' WHERE ' . implode(' AND ');
 		
 		return $this;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getLastInsertedId()
+	{
+		return $this->__connect->lastInsertId();
 	}
 	
 	public function limit($count)
@@ -157,6 +214,10 @@ class MySqlAdapter implements IDbAdapter
 		// TODO: Implement offset() method.
 	}
 	
+	/**
+	 * @param $query
+	 * @param PdoStatementErrorInfo $info
+	 */
 	private function __log($query, PdoStatementErrorInfo $info)
 	{
 		Logger::dbLog($query, $info->getErrorMessage());

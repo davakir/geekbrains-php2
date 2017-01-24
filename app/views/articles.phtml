@@ -1,0 +1,28 @@
+<?php
+/**
+ * @var $articles array -- Список всех статей
+ */
+?>
+<section class="articles">
+	<form action="/article/create" method="get">
+		<input type="submit" value="Создать статью" class="btn">
+	</form>
+	<?php if (!empty($articles)) { ?>
+		<?php foreach ($articles as $article) { ?>
+			<div class="article">
+				<div class="article-title">
+					<?=$article['title']?>
+				</div>
+				<div class="article-content">
+					<?php if (!empty($article['content'])) echo $article['content']; else echo '&nbsp;'; ?>
+				</div>
+				<div class="edit-article">
+					<form action="/article/<?=$article['id']?>/edit" method="get">
+						<input type="submit" value="Редактировать" class="btn">
+						<input type="submit" value="Удалить" class="btn cancel">
+					</form>
+				</div>
+			</div>
+		<?php } ?>
+	<?php } ?>
+</section>

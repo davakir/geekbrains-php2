@@ -1,11 +1,23 @@
 <form action="/login/send" method="post">
-	<label for="login">
-		<input type="text" id="login" name="login" placeholder="Логин" <?php if (!empty($login)) echo "value=\"$login\"" ?>>
-	</label>
-	<label for="pass">
-		<input type="password" id="pass" name="password" placeholder="Пароль">
-	</label>
-	<label for="submit">
-		<input type="submit" value="Авторизоваться">
-	</label>
+	<div class="for-input">
+		<label for="login">
+			<input type="text" id="login" name="login" placeholder="Логин" <?php if (!empty($login)) echo "value=\"$login\"" ?>>
+		</label>
+	</div class="for-input">
+	<div class="for-input">
+		<label for="pass">
+			<input type="password" id="pass" name="password" placeholder="Пароль">
+		</label>
+	</div>
+	<div class="for-input">
+		<label for="remember">
+			<input type="checkbox" id="remember" name="remember" value="Запомнить меня">
+			Запомнить меня
+		</label>
+	</div>
+	<div class="for-input">
+		<label for="submit">
+			<input type="submit" value="Авторизоваться">
+		</label>
+	</div>
 </form>

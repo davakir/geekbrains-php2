@@ -23,7 +23,7 @@ interface IDbAdapter
 	
 	public function fetchColumn();
 	
-	public function fetchObject();
+	public function fetchObject($className);
 	
 	public function select($table, array $fields = []);
 	

@@ -3,6 +3,7 @@
 namespace Repository;
 
 use Blog\Db\IDbAdapter;
+use Blog\ServiceManager\DbAdapterManager;
 
 abstract class BaseRepository
 {
@@ -11,11 +12,8 @@ abstract class BaseRepository
 	 */
 	protected $_adapter;
 	
-	/**
-	 * @param IDbAdapter $adapter
-	 */
-	public function __construct(IDbAdapter $adapter)
+	public function __construct()
 	{
-		$this->_adapter = $adapter;
+		$this->_adapter = DbAdapterManager::getDbAdapter();
 	}
 }

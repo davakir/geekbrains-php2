@@ -36,14 +36,6 @@ class Article
 	}
 	
 	/**
-	 * @param mixed $id
-	 */
-	private function setId($id)
-	{
-		$this->id = $id;
-	}
-	
-	/**
 	 * @return mixed
 	 */
 	public function getTitle()
@@ -106,6 +98,4 @@ class Article
 	{
 		$this->dateCreated = $dateCreated;
 	}
-	
-	
 }

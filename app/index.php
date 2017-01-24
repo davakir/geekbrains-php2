@@ -1,19 +1,39 @@
 <?php
 
-include './../autoload.php';
+session_start();
+
+header('Content-Type: text/html; charset=utf-8');
+
+include __DIR__ . './../autoload.php';
 
 use Blog\App\Application;
-use Controller\Route;
+use Controller\Controller;
 
 $app = new Application();
-$route = new Route();
+$route = new Controller();
 
 $app->get('/', function () use ($route) {
 	return $route->index();
 });
 
-$app->get('/about', function () use ($route) {
-	return $route->about();
+$app->get('/home', function () use ($route) {
+	return $route->index();
+});
+
+$app->get('/articles', function () use ($route) {
+	return $route->articles();
+});
+
+$app->get('/gallery', function () use ($route) {
+	return $route->gallery();
+});
+
+$app->get('/register', function () use ($route) {
+	return $route->register();
+});
+
+$app->get('/contacts', function () use ($route) {
+	return $route->contacts();
 });
 
 $app->get('/article/create', function () use ($route) {

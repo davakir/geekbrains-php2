@@ -1,18 +1,51 @@
-$darkgray: #2f4f4f;
-$darkcyan: #008b8b;
-$dark-coral: #f45f45;
-$coral: #ff7f50;
-$burlywood: #deb887;
+@import "variables";
 
-$font-header: Comfortaa, cursive;
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: $font-main;
+}
+
+a {
+  font-family: $font-main;
+}
+
+.wrapper {
+  position: relative;
+  min-height: 100%;
+}
+
+.content {
+  min-height: 100%;
+  padding-bottom: 30px;
+}
+
+footer {
+  position: absolute;
+  display: block;
+  width: 100%;
+  bottom: 0;
+  font-family: $font-main;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+}
 
 .main-menu {
+  position: relative;
   width: auto;
   padding-top: 30px;
   margin-bottom: 30px;
   padding-left: 30px;
   padding-bottom: 10px;
   border-bottom: 3px solid $darkgray;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   li {
 	display: inline-block;
 	margin: 0 20px 0 0;
@@ -23,8 +56,17 @@ $font-header: Comfortaa, cursive;
 	a {
 	  text-decoration: none;
 	  color: $darkgray;
-	  font-family: $font-header;
+	  font-family: $font-main;
 	}
+	&#login {
+	  position: absolute;
+	  right: 0;
+	  bottom: 10px;
+	}
+  }
+  span#user-status {
+	color: gray;
+	font-size: smaller;
   }
 }
 
@@ -35,12 +77,22 @@ section {
 }
 
 form {
-  height: 80px;
-  margin: 0;
-  text-align: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  vertical-align: center;
+  margin: 0 auto;
+  padding: 10px 0;
+  text-align: left;
+  &#new-article-form {
+	width: 50%
+  }
+  .form-item {
+	margin-bottom: 10px;
+	input, textarea {
+	  width: 100%;
+	  padding: 5px;
+	}
+	textarea {
+	  resize: vertical;
+	}
+  }
 }
 
 .btn, button {
@@ -49,8 +101,14 @@ form {
   padding: 10px 10px;
   background-color: $darkcyan;
   color: #ffffff;
+  font-size: 14px;
   font-weight: 700;
   font-variant: small-caps;
+  text-decoration: none;
+  cursor: pointer;
+  &.cancel {
+	background-color: $coral;
+  }
 }
 
 .error {
@@ -64,3 +122,6 @@ form {
   text-align: center;
 }
 
+.for-input {
+  margin-bottom: 10px;
+}

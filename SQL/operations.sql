@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS operations (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS role_operations (
+  role_id INT NOT NULL,
+  operation_id INT NOT NULL ,
+  PRIMARY KEY (role_id, operation_id),
+  CONSTRAINT FOREIGN KEY role_ref (role_id) REFERENCES roles (id) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT FOREIGN KEY operation_ref (operation_id) REFERENCES operations (id) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB;

@@ -1,13 +1,20 @@
 <form action="/article/create/send" method="post" id="new-article-form">
-	<label for="title">
-		Заголовок статьи
-		<input type="text" name="title" id="title">
-	</label>
-	<br/>
-	<label for="content">
-		Содержимое
-		<textarea name="content" id="content" cols="30" rows="10"></textarea>
-	</label>
-	<br/>
-	<input type="submit" value="Сохранить">
+	<div class="form-item">
+		<label for="title">
+			<div>
+				Заголовок статьи
+			</div>
+			<input type="text" name="title" id="title">
+		</label>
+	</div>
+	<div class="form-item">
+		<label for="content">
+			<div>Содержимое</div>
+			<textarea name="content" id="content" cols="30" rows="15"></textarea>
+		</label>
+	</div>
+	<div>
+		<input type="submit" value="Сохранить" class="btn submit">
+		<input type="submit" value="Отмена" class="btn cancel">
+	</div>
 </form>

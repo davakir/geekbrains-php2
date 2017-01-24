@@ -2,19 +2,23 @@
 
 namespace Repository;
 
-use Blog\Db\IDbAdapter;
 use Model\Articles\Article;
 
 class ArticleRepository extends BaseRepository
 {
 	public function getArticleById ($id)
 	{
-		$this->_adapter->select('articles', ['id' => $id]);
+		return $this->_adapter->query(
+			'SELECT * from articles WHERE id = ?',
+			[$id]
+		)->fetch();
 	}
 	
-	public function getAllArticles()
+	public  function getAllArticles()
 	{
-		$this->_adapter->select('articles', []);
+		return $this->_adapter->query(
+			'SELECT * FROM articles'
+		)->fetchAll();
 	}
 	
 	public function saveArticle(Article $data)

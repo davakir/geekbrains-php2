@@ -7,32 +7,48 @@
  */
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 	<head>
-		<title><?php echo $title ?></title>
-		<meta charset="utf-8"/>
+		<title><?=$title?></title>
+		<meta http-equiv="Content-type" content="charset=utf-8" />
 		<meta name="description" content="This is the main page of my site"/>
+		<link rel="icon" href="/web/img/favicon.ico" type="image/x-icon">
 		<link rel="stylesheet" href="/web/css/style.css" type="text/css">
+		<link rel="stylesheet" href="/web/css/articles.css" type="text/css">
 		<link href='https://fonts.googleapis.com/css?family=Comfortaa:400,300,700&subset=latin,cyrillic,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'/>
 	</head>
 	<body>
-		<div class="content">
-			<ul class="main-menu">
-				<li>
-					<h1><a href="#">Home</a></h1>
-				</li>
-				<li><a href="#">Статьи</a></li>
-				<li><a href="#">Каталог</a></li>
-				<li class="here"><a href="#">Галерея изображений</a></li>
-				<li><a href="#">Регистрация</a></li>
-				<li><a href="#">Контакты</a></li>
-			</ul>
-			<section>
-				<?php echo $content ?>
-			</section>
+		<div class="wrapper">
+			<div class="content">
+				<ul class="main-menu">
+					<li>
+						<h1><a href="/home">Home</a></h1>
+					</li>
+					<li><a href="/articles">Статьи</a></li>
+					<li><a href="/gallery">Галерея изображений</a></li>
+					<li><a href="/contacts">Контакты</a></li>
+					<?php if (!empty($user)) { ?>
+						<li id="login">
+							<span id="user-status">online</span>
+							<?=$user['names']?>
+						</li>
+					<?php } else { ?>
+						<li><a href="/register">Регистрация</a></li>
+						<li id="login"><a href="/login">Авторизация</a></li>
+					<?php } ?>
+				</ul>
+				<section>
+					<?=$content?>
+				</section>
+			</div>
+			
+			<footer>
+				All rights reserved &copy; 2017
+			</footer>
 		</div>
-		<footer>
-			All rights reserved &copy; 2015
-		</footer>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="/web/js/button-handlers.js"></script>
+	
 	</body>
 </html>
