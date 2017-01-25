@@ -1,6 +1,6 @@
 <?php
 
-namespace Model\User;
+namespace Model;
 
 
 class User
@@ -13,8 +13,13 @@ class User
 	private $names;
 	private $roleId;
 	
-	public function __construct(array $data)
+	/**
+	 * User constructor.
+	 * @param array $data
+	 */
+	public function __construct(array $data = [])
 	{
+		$this->setId($data['id']);
 		$this->setLogin($data['login']);
 		$this->setPassword($data['password']);
 		$this->setEmail($data['email']);
@@ -29,6 +34,14 @@ class User
 	public function getId()
 	{
 		return $this->id;
+	}
+	
+	/**
+	 * @param $id
+	 */
+	private function setId($id)
+	{
+		$this->id = $id;
 	}
 	
 	/**

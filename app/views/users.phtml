@@ -1,0 +1,16 @@
+<?php
+/**
+ * @var $users array -- Список всех пользователей
+ */
+
+if (!empty($users)) {
+	foreach ($users as $user) { ?>
+		<div class="user">
+			<span><?=$user['names']?></span> --
+			<span><?=$user['login']?></span>
+			
+			<div class="status">
+				<span>статус на сайте: <?=$user['activity_status']?></span>
+			</div>
+		</div>
+<?php }} ?>

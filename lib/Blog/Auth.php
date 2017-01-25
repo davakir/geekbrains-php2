@@ -34,6 +34,14 @@ class Auth
 		return ['user_id' => $userId];
 	}
 	
+	public function logout()
+	{
+		$sid = $_COOKIE[$this->cookieName];
+		$sessionRep = new SessionRepository();
+		$sessionRep->deleteSession($sid);
+		$this->__closeSession($sid);
+	}
+	
 	/**
 	 * @return array
 	 */
@@ -41,6 +49,7 @@ class Auth
 	{
 		$cookie = !empty($_COOKIE[$this->cookieName]) ? $_COOKIE[$this->cookieName] : null;
 		$user = [];
+		$sessionData = [];
 		
 		if ($cookie)
 		{
@@ -81,9 +90,15 @@ class Auth
 		
 		if ($remember)
 		{
-			setcookie($this->cookieName, $sid, time() + 3600 * 24, '/');
+			setcookie($this->cookieName, $sid, time() + self::$cookieLiveTime, '/');
 		}
 	}
 	
-	
+	/**
+	 * @param $sid
+	 */
+	private function __closeSession($sid)
+	{
+		setcookie($this->cookieName, $sid, time() - self::$cookieLiveTime, '/');
+	}
 }

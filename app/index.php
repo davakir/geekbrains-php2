@@ -48,8 +48,16 @@ $app->get('/login', function () use ($route) {
 	return $route->login();
 });
 
+$app->get('/logout', function () use ($route) {
+	return $route->logout();
+});
+
 $app->post('/login/send', function () use ($route) {
 	return $route->doLogin();
+});
+
+$app->get('/users', function () use ($route) {
+	return $route->users();
 });
 
 $app->run(new \Layout\MainLayout());

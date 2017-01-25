@@ -90,7 +90,7 @@ class MySqlAdapter implements IDbAdapter
 	 * Method for custom user CUDR queries.
 	 * Only SELECT requires fetchAll() to be used next.
 	 *
-	 * @param $query
+	 * @param string $query
 	 * @param array $bindParams
 	 * @return $this
 	 */
@@ -118,7 +118,7 @@ class MySqlAdapter implements IDbAdapter
 	 */
 	public function fetchAll()
 	{
-		return $this->__pdoStatement->fetchAll();
+		return $this->__pdoStatement->fetchAll(\PDO::FETCH_ASSOC);
 	}
 	
 	/**

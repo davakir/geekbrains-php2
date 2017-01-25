@@ -49,4 +49,12 @@ class SessionRepository extends BaseRepository
 			[$sid]
 		)->fetch();
 	}
+	
+	public function deleteSession($sid)
+	{
+		$this->_adapter->query(
+			'DELETE FROM sessions WHERE sid = ?',
+			$sid
+		);
+	}
 }

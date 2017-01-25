@@ -3,7 +3,7 @@
 namespace Blog\App;
 use Blog\Auth;
 use Layout\ILayout;
-use Layout\Main;
+use Model\CurrentUser;
 use Repository\SessionRepository;
 
 /**
@@ -41,6 +41,7 @@ class Application
 			{
 				/* Получаем информацию об авторизованном пользователе */
 				list($user, $session) = (new Auth())->getAuthInfo();
+				(new CurrentUser())->initCurrentUser($user);
 				
 				/*
 				 * Обновляем время последнего действия пользователя

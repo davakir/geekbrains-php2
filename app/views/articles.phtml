@@ -1,12 +1,15 @@
 <?php
 /**
  * @var $articles array -- Список всех статей
+ * @var $permissions array -- Права, которые есть у пользователя, на операции со статьями
  */
 ?>
 <section class="articles">
-	<form action="/article/create" method="get">
-		<input type="submit" value="Создать статью" class="btn">
-	</form>
+	<?php if (in_array('create_article', $permissions)) { ?>
+		<form action="/article/create" method="get">
+			<input type="submit" value="Создать статью" class="btn">
+		</form>
+	<?php } ?>
 	<?php if (!empty($articles)) { ?>
 		<?php foreach ($articles as $article) { ?>
 			<div class="article">
@@ -18,8 +21,13 @@
 				</div>
 				<div class="edit-article">
 					<form action="/article/<?=$article['id']?>/edit" method="get">
-						<input type="submit" value="Редактировать" class="btn">
-						<input type="submit" value="Удалить" class="btn cancel">
+						<?php if (in_array('edit_article', $permissions)) { ?>
+							<input type="submit" value="Редактировать" class="btn">
+						<?php } ?>
+						
+						<?php if (in_array('delete_article', $permissions)) { ?>
+							<input type="submit" value="Удалить" class="btn cancel">
+						<?php } ?>
 					</form>
 				</div>
 			</div>

@@ -4,8 +4,10 @@ namespace Controller;
 
 use Blog\Auth;
 use Model\Articles\Article;
+use Model\CurrentUser;
 use Model\User\User;
 use Repository\ArticleRepository;
+use Repository\RightsRepository;
 use Repository\UserRepository;
 
 /**
@@ -33,10 +35,14 @@ class Controller extends AbstractController
 	public function articles()
 	{
 		$articles = (new ArticleRepository())->getAllArticles();
+		$permissions = (new RightsRepository())->getRoleOperations(
+			(CurrentUser::getInstance())->getRoleId()
+		);
 		
 		return [
 			'content' => $this->_view->render('articles', [
-				'articles' => $articles
+				'articles' => $articles,
+				'permissions' => $permissions
 			]),
 			'title' => 'Статьи'
 		];
@@ -91,6 +97,15 @@ class Controller extends AbstractController
 	}
 	
 	/**
+	 * @Route ("/logout")
+	 */
+	public function logout()
+	{
+		(new Auth())->logout();
+		$this->_redirect('/');
+	}
+	
+	/**
 	 * @Route ("/article/create")
 	 * @return array
 	 */
@@ -110,7 +125,7 @@ class Controller extends AbstractController
 	{
 		$this->__saveArticle($_POST);
 		
-		return $this->_redirect('/articles');
+		$this->_redirect('/articles');
 	}
 	
 	/**
@@ -139,6 +154,14 @@ class Controller extends AbstractController
 				'title' => 'Авторизация'
 			];
 		}
+	}
+	
+	public function users()
+	{
+		return [
+			'content' => $this->_view->render('users', ['users' => (new UserRepository())->getAllUsers()]),
+			'title' => 'Пользователи'
+		];
 	}
 	
 	private function __saveArticle(array $data)

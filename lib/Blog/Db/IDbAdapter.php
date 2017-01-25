@@ -31,6 +31,8 @@ interface IDbAdapter
 	
 	public function update($table, array $data = []);
 	
+//	public function delete($table);
+	
 	public function where(array $options);
 	
 	public function limit($count);

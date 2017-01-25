@@ -2,7 +2,8 @@
 
 namespace Blog;
 
-class Autoloader
+
+class RightsPolicy
 {
 	
 }
