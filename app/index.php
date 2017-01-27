@@ -8,56 +8,52 @@ include __DIR__ . './../autoload.php';
 
 use Blog\App\Application;
 use Controller\Controller;
+use Controller\UserController;
+use Controller\AuthController;
 
 $app = new Application();
-$route = new Controller();
+$mainController = new Controller();
+$userController = new UserController();
+$authController = new AuthController();
 
-$app->get('/', function () use ($route) {
-	return $route->index();
+$app->get('\/', function () use ($mainController) {
+	return $mainController->index();
 });
-
-$app->get('/home', function () use ($route) {
-	return $route->index();
+$app->get('\/home', function () use ($mainController) {
+	return $mainController->index();
 });
-
-$app->get('/articles', function () use ($route) {
-	return $route->articles();
+$app->get('\/articles', function () use ($mainController) {
+	return $mainController->articles();
 });
-
-$app->get('/gallery', function () use ($route) {
-	return $route->gallery();
+$app->get('\/gallery', function () use ($mainController) {
+	return $mainController->gallery();
 });
-
-$app->get('/register', function () use ($route) {
-	return $route->register();
+$app->get('\/contacts', function () use ($mainController) {
+	return $mainController->contacts();
 });
-
-$app->get('/contacts', function () use ($route) {
-	return $route->contacts();
+$app->get('\/article\/create\?*', function () use ($mainController) {
+	return $mainController->createArticle();
 });
-
-$app->get('/article/create', function () use ($route) {
-	return $route->createArticle();
+$app->post('\/article\/create\/send', function () use ($mainController) {
+	return $mainController->doCreateArticle();
 });
-
-$app->post('/article/create/send', function () use ($route) {
-	return $route->doCreateArticle();
+$app->get('\/login', function () use ($authController) {
+	return $authController->login();
 });
-
-$app->get('/login', function () use ($route) {
-	return $route->login();
+$app->get('\/logout', function () use ($authController) {
+	return $authController->logout();
 });
-
-$app->get('/logout', function () use ($route) {
-	return $route->logout();
+$app->post('\/login\/send', function () use ($authController) {
+	return $authController->doLogin();
 });
-
-$app->post('/login/send', function () use ($route) {
-	return $route->doLogin();
+$app->get('\/register', function () use ($authController) {
+	return $authController->register();
 });
-
-$app->get('/users', function () use ($route) {
-	return $route->users();
+$app->post('\/register\/send', function () use ($authController) {
+	return $authController->doRegister();
+});
+$app->get('\/users', function () use ($userController) {
+	return $userController->getUsers();
 });
 
 $app->run(new \Layout\MainLayout());

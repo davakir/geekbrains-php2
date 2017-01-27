@@ -2,13 +2,10 @@
 
 namespace Controller;
 
-use Blog\Auth;
 use Model\Articles\Article;
 use Model\CurrentUser;
-use Model\User\User;
 use Repository\ArticleRepository;
 use Repository\RightsRepository;
-use Repository\UserRepository;
 
 /**
  * Class Controller
@@ -35,9 +32,12 @@ class Controller extends AbstractController
 	public function articles()
 	{
 		$articles = (new ArticleRepository())->getAllArticles();
-		$permissions = (new RightsRepository())->getRoleOperations(
-			(CurrentUser::getInstance())->getRoleId()
-		);
+		$permissions = [];
+		
+		if (CurrentUser::getInstance())
+			$permissions = (new RightsRepository())->getRoleOperations(
+				(CurrentUser::getInstance())->getRoleId()
+			);
 		
 		return [
 			'content' => $this->_view->render('articles', [
@@ -72,38 +72,7 @@ class Controller extends AbstractController
 		];
 	}
 	
-	/**
-	 * @Route ("/register")
-	 * @return array
-	 */
-	public function register()
-	{
-		return [
-			'content' => $this->_view->render('registration'),
-			'title' => 'Регистрация'
-		];
-	}
-	
-	/**
-	 * @Route ("/login")
-	 * @return array
-	 */
-	public function login()
-	{
-		return [
-			'content' => $this->_view->render('auth'),
-			'title' => 'Авторизация'
-		];
-	}
-	
-	/**
-	 * @Route ("/logout")
-	 */
-	public function logout()
-	{
-		(new Auth())->logout();
-		$this->_redirect('/');
-	}
+
 	
 	/**
 	 * @Route ("/article/create")
@@ -126,42 +95,6 @@ class Controller extends AbstractController
 		$this->__saveArticle($_POST);
 		
 		$this->_redirect('/articles');
-	}
-	
-	/**
-	 * Обрабатывает POST запрос.
-	 * Если пользователя удалось авторизовать, то перенаправляем его на главную страницу,
-	 * иначе возвращаем на страницу авторизации с выводом возникших ошибок.
-	 *
-	 * @return array|void
-	 */
-	public function doLogin()
-	{
-		$login = $_POST['login'];
-		$pass = $_POST['password'];
-		$remember = $_POST['remember'];
-		
-		$result = (new Auth())->login($login, $pass, $remember);
-		
-		if ($result)
-		{
-			$this->_redirect('/');
-		}
-		else
-		{
-			return [
-				'content' => $this->_view->render('auth', ['errors' => 'Неверный логин или пароль']),
-				'title' => 'Авторизация'
-			];
-		}
-	}
-	
-	public function users()
-	{
-		return [
-			'content' => $this->_view->render('users', ['users' => (new UserRepository())->getAllUsers()]),
-			'title' => 'Пользователи'
-		];
 	}
 	
 	private function __saveArticle(array $data)

@@ -3,6 +3,8 @@
 namespace Repository;
 
 
+use Model\User;
+
 class UserRepository extends BaseRepository
 {
 	private $offlineTimeout = 60;
@@ -78,5 +80,24 @@ class UserRepository extends BaseRepository
 			'SELECT date_last_activity FROM sessions WHERE user_id = ? ORDER BY date_last_activity DESC LIMIT 1',
 			[$userId]
 		)->fetchColumn();
+	}
+	
+	/**
+	 * Добавляет в базу нового пользователя.
+	 * Возвращает ошибку, если таковая будет при добавлении записи в базу.
+	 *
+	 * @param User $user
+	 * @return mixed
+	 */
+	public function createNewUser(User $user)
+	{
+		return $this->_adapter->insert('users', [
+			'login' => $user->getLogin(),
+			'password' => $user->getPassword(),
+			'email' => $user->getEmail(),
+			'surname' => $user->getSurname(),
+			'names' => $user->getNames(),
+			'role_id' => $user->getRoleId()
+		]);
 	}
 }

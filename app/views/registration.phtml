@@ -1,7 +1,79 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: daryakiryanova
- * Date: 21.01.17
- * Time: 15:48
+ * @var string $mainError -- Большая и страшная ошибка
+ * @var array $userData -- Возвращается, если возникли ошибки с валидацией полей на backend
  */
+?>
+
+<?php if (!empty($mainError)) { ?>
+	<div class="error"><?=$mainError;?></div>
+<?php } ?>
+<form action="/register/send" method="post" id="register-form">
+	<div class="form-item">
+		<?php if (!empty($userData['login']['error'])) { ?>
+			<div class="error"><?=$userData['login']['error']?></div>
+		<?php } ?>
+		<label for="login">
+			<div>
+				Придумайте логин
+			</div>
+			<input type="text" name="login" id="login" placeholder="Логин" value="<?php if (!empty($userData['login']['value'])) echo $userData['login']['value']; ?>">
+		</label>
+	</div>
+	<div class="form-item">
+		<?php if (!empty($userData['email']['error'])) { ?>
+			<div class="error"><?=$userData['email']['error']?></div>
+		<?php } ?>
+		<label for="email">
+			<div>
+				Введите Ваш e-mail
+			</div>
+			<input type="email" name="email" id="email" placeholder="example@domain.com" value="<?php if (!empty($userData['email']['value'])) echo $userData['email']['value']; ?>">
+		</label>
+	</div>
+	<div class="form-item">
+		<?php if (!empty($userData['names']['error'])) { ?>
+			<div class="error"><?=$userData['names']['error']?></div>
+		<?php } ?>
+		<label for="names">
+			<div>
+				Введите Ваше имя
+			</div>
+			<input type="text" name="names" id="names" placeholder="Ваше имя" value="<?php if (!empty($userData['names']['value'])) echo $userData['names']['value']; ?>">
+		</label>
+	</div>
+	<div class="form-item">
+		<?php if (!empty($userData['surname']['error'])) { ?>
+			<div class="error"><?=$userData['surname']['error']?></div>
+		<?php } ?>
+		<label for="surname">
+			<div>
+				Введите Вашу фамилию
+			</div>
+			<input type="text" name="surname" id="surname" placeholder="Ваша фамилия" value="<?php if (!empty($userData['surname']['value'])) echo $userData['surname']['value']; ?>">
+		</label>
+	</div>
+	<div class="form-item">
+		<?php if (!empty($userData['password']['error'])) { ?>
+			<div class="error"><?=$userData['password']['error']?></div>
+		<?php } ?>
+		<label for="password">
+			<div>
+				Придумайте пароль
+			</div>
+			<input type="password" name="password" id="password" placeholder="Введите пароль">
+		</label>
+	</div>
+	<div class="form-item">
+		<label for="password-repeat">
+			<div>
+				Повторите пароль
+			</div>
+			<input type="password" name="password-repeat" id="password-repeat" placeholder="Повторите пароль">
+		</label>
+	</div>
+	<div>
+		<input type="submit" value="Зарегистрироваться" class="btn submit">
+		<a href="/" class="btn cancel">Отмена</a>
+	</div>
+</form>

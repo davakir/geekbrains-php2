@@ -1,0 +1,22 @@
+@mixin clearfix {
+  display: block;
+  clear: both;
+  content: '';
+}
+
+@mixin center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin border-box {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+@mixin content-box {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}

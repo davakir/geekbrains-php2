@@ -8,10 +8,10 @@ class User
 	private $id;
 	private $login;
 	private $password;
-	private $email;
-	private $surname;
-	private $names;
-	private $roleId;
+	private $email = '';
+	private $surname = '';
+	private $names = '';
+	private $roleId = 0;
 	
 	/**
 	 * User constructor.
@@ -19,13 +19,13 @@ class User
 	 */
 	public function __construct(array $data = [])
 	{
-		$this->setId($data['id']);
-		$this->setLogin($data['login']);
-		$this->setPassword($data['password']);
-		$this->setEmail($data['email']);
-		$this->setSurname($data['surname']);
-		$this->setNames($data['names']);
-		$this->setRoleId($data['role_id']);
+		if (!empty($data['id'])) $this->setId($data['id']);
+		if (!empty($data['login'])) $this->setLogin($data['login']);
+		if (!empty($data['password'])) $this->setPassword($data['password']);
+		if (!empty($data['email'])) $this->setEmail($data['email']);
+		if (!empty($data['surname'])) $this->setSurname($data['surname']);
+		if (!empty($data['names'])) $this->setNames($data['names']);
+		if (!empty($data['role_id'])) $this->setRoleId($data['role_id']);
 	}
 	
 	/**

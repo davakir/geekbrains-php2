@@ -35,21 +35,25 @@ class Application
 		foreach ($this->__handlers as $item)
 		{
 			list($route, $handlerMethod, $handler) = $item;
-			$preparedRoute = preg_quote($route, '/');
 			
-			if ($method == $handlerMethod && preg_match("/^$preparedRoute$/i", $uri))
+			if ($method == $handlerMethod && preg_match("/^$route$/i", $uri))
 			{
 				/* Получаем информацию об авторизованном пользователе */
 				list($user, $session) = (new Auth())->getAuthInfo();
-				(new CurrentUser())->initCurrentUser($user);
+				/* Инициализируем текущего пользователя, если есть кого */
+				if (!empty($user))
+					(new CurrentUser())->initCurrentUser($user);
 				
 				/*
 				 * Обновляем время последнего действия пользователя
-				 * (для дальнейшего определения его статус активности на сайте).
+				 * (для дальнейшего определения его статуса активности на сайте).
 				 * До тех пор, пока польз-ль что-то делает, он активен.
 				 */
-				$sessionRep = new SessionRepository();
-				$sessionRep->updateLastActivityTime($session['sid'], date('Y-m-d H:i:s'));
+				if (!empty($session))
+				{
+					$sessionRep = new SessionRepository();
+					$sessionRep->updateLastActivityTime($session['sid'], date('Y-m-d H:i:s'));
+				}
 
 				$layout->drawLayout(array_merge(
 					$handler(),

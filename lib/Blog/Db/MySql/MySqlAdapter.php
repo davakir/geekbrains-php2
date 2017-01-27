@@ -146,7 +146,7 @@ class MySqlAdapter implements IDbAdapter
 	/**
 	 * @param $table
 	 * @param array $data
-	 * @return mixed
+	 * @return boolean
 	 */
 	public function insert($table, array $data)
 	{
@@ -163,7 +163,7 @@ class MySqlAdapter implements IDbAdapter
 		$info = (new PdoStatementErrorInfo($stmt));
 		$this->__log($stmt->queryString, $info);
 		
-		return $info->getErrorMessage();
+		return ($info->getErrorMessage()) ? false : true;
 	}
 	
 	/**
