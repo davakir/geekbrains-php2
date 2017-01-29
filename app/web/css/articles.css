@@ -1,2 +1,2 @@
-.article{position:relative;margin:20px 0;padding:20px 0;border-bottom:1px #2f4f4f solid}.article .article-title{width:70%;font-size:larger;font-weight:700}.article .article-content{width:70%}.article .edit-article{position:absolute;width:30%;right:0;top:0;text-align:right}.article .edit-article form{text-align:right}
+.article{position:relative;margin:20px 0;padding:20px 0;border-bottom:1px #2f4f4f solid}.article .article-title{width:70%;font-size:larger;font-weight:700}.article .article-content{width:70%}.article .article-actions{position:absolute;width:30%;right:0;top:0;text-align:right}.article .article-actions form{display:inline-block;text-align:right}
 /*# sourceMappingURL=articles.css.map */

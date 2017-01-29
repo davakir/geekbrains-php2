@@ -1,0 +1,47 @@
+<?php
+/**
+ * @var \Model\User $user
+ * @var array $roles
+ */
+?>
+<form action="/users/save" method="post" id="edit-user-form" style="width: 50%">
+	<input type="hidden" value="<?=$user->getId()?>" name="user">
+	<div class="form-item">
+		<label for="names">
+			<span>Имя:</span>
+			<input type="text" name="names" id="names" value="<?=$user->getNames()?>">
+		</label>
+	</div>
+	<div class="form-item">
+		<label for="surname">
+			<span>Фамилия:</span>
+			<input type="text" name="surname" id="surname" value="<?=$user->getSurname()?>">
+		</label>
+	</div>
+	<div class="form-item">
+		<label for="login">
+			<span>Логин:</span>
+			<input type="text" name="login" id="login" value="<?=$user->getLogin()?>">
+		</label>
+	</div>
+	<div class="form-item">
+		<label for="email">
+			<span>E-mail:</span>
+			<input type="text" name="email" id="email" value="<?=$user->getEmail()?>">
+		</label>
+	</div>
+	<div class="form-item">
+		<label for="role">
+			<span>Присвоенная роль:</span>
+			<select name="role" id="role">
+				<?php foreach ($roles as $role) { ?>
+					<option value="<?=$role['id']?>" <?php if ($user->getRoleId() == $role['id']) echo 'selected' ?>><?=$role['role_title']?></option>
+				<?php } ?>
+			</select>
+		</label>
+	</div>
+	<div>
+		<input type="submit" value="Сохранить" class="btn submit">
+		<a href="/users" class="btn cancel">Отмена</a>
+	</div>
+</form>

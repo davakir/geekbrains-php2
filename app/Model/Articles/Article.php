@@ -21,10 +21,11 @@ class Article
 	
 	public function __construct(array $data)
 	{
+		if (!empty($data['id'])) $this->setId($data['id']);
 		$this->setContent($data['content']);
 		$this->setTitle($data['title']);
 		$this->setAuthor($data['author']);
-		$this->previewText = substr($this->content, 0, $this->previewLength);
+		$this->setPreviewText();
 	}
 	
 	/**
@@ -33,6 +34,14 @@ class Article
 	public function getId()
 	{
 		return $this->id;
+	}
+	
+	/**
+	 * @param $id
+	 */
+	public function setId($id)
+	{
+		$this->id = $id;
 	}
 	
 	/**
@@ -92,10 +101,15 @@ class Article
 	}
 	
 	/**
-	 * @param mixed $dateCreated
+	 * @return string
 	 */
-	private function setDateCreated($dateCreated)
+	public function getPreviewText()
 	{
-		$this->dateCreated = $dateCreated;
+		return $this->previewText;
+	}
+
+	public function setPreviewText()
+	{
+		$this->previewText = mb_substr($this->content, 0, $this->previewLength);
 	}
 }

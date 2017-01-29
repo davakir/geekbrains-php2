@@ -1,42 +1,51 @@
-/*
-var ArticleCreateForm = {
+var DeleteArticleForm = {
 	form: null,
-	submitButton: null,
 	
-	init: function (form, submitBtn) {
-		this.form = form;
-		this.submitButton = submitBtn;
+	init: function (formId) {
+		DeleteArticleForm.form = $('#' + formId);
+		
+		var action = DeleteArticleForm.form.attr('action'),
+			submitBtn =  DeleteArticleForm.form.find('input[type="submit"]');
+		
+		DeleteArticleForm.form.find('div').on('click', function (e) {
+			e.preventDefault();
+			if (confirm('Вы действительно хотите удалить статью?')) {
+				submitBtn.click();
+			}
+		});
 	}
 };
-$(document).ready(function () {
-	ArticleCreateForm.init($('form#new-article-form'), $('form#new-article-form .btn.submit'));
-});
 
-var RegisterForm = {
+var DeleteUserForm = {
 	form: null,
-	submitButton: null,
 	
-	init: function (form, submitBtn) {
-		console.log(this);
-		var self = this;
+	init: function (formId) {
+		DeleteUserForm.form = $('#' + formId);
 		
-		self.form = form;
-		self.submitButton = submitBtn;
+		var action = DeleteUserForm.form.attr('action'),
+			submitBtn =  DeleteUserForm.form.find('input[type="submit"]');
 		
-		var login = self.form.find('#login'),
-			email = self.form.find('#email'),
-			names = self.form.find('#names'),
-			password = self.form.find('#password'),
-			passwordRepeat = self.form.find('#password-repeat');
-		
-		login.on('change', self.validateLogin(login.val()));
-		
-	},
-	
-	validateLogin: function (login) {
-		console.log(login);
+		DeleteUserForm.form.find('div').on('click', function (e) {
+			e.preventDefault();
+			if (confirm('Вы действительно хотите удалить пользователя?')) {
+				submitBtn.click();
+			}
+		});
 	}
 };
-$(window).load(function () {
-	RegisterForm.init($('form#registration-form'), $('form#registration-form .btn.submit'));
-});*/
+
+$(document).ready(function () {
+	var formsArticles = $('form.delete-article-form');
+	
+	for (var i=0; i < formsArticles.length; i++)
+	{
+		DeleteArticleForm.init(formsArticles[i].id);
+	}
+	
+	var formsUsers = $('form.delete-user-form');
+	
+	for (var j=0; j < formsUsers.length; j++)
+	{
+		DeleteUserForm.init(formsUsers[j].id);
+	}
+});

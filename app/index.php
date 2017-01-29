@@ -25,17 +25,26 @@ $app->get('\/home', function () use ($mainController) {
 $app->get('\/articles', function () use ($mainController) {
 	return $mainController->articles();
 });
+$app->get('\/articles\/create\?*', function () use ($mainController) {
+	return $mainController->createArticle();
+});
+$app->post('\/articles\/create\/send', function () use ($mainController) {
+	return $mainController->doCreateArticle();
+});
+$app->post('\/articles\/delete', function () use ($mainController) {
+	return $mainController->deleteArticle();
+});
+$app->get('\/articles\/edit\?.+', function () use ($mainController) {
+	return $mainController->editArticle();
+});
+$app->post('\/articles\/save', function () use ($mainController) {
+	return $mainController->updateArticle();
+});
 $app->get('\/gallery', function () use ($mainController) {
 	return $mainController->gallery();
 });
 $app->get('\/contacts', function () use ($mainController) {
 	return $mainController->contacts();
-});
-$app->get('\/article\/create\?*', function () use ($mainController) {
-	return $mainController->createArticle();
-});
-$app->post('\/article\/create\/send', function () use ($mainController) {
-	return $mainController->doCreateArticle();
 });
 $app->get('\/login', function () use ($authController) {
 	return $authController->login();
@@ -54,6 +63,15 @@ $app->post('\/register\/send', function () use ($authController) {
 });
 $app->get('\/users', function () use ($userController) {
 	return $userController->getUsers();
+});
+$app->get('\/users\/edit\?.+', function () use ($userController) {
+	return $userController->editUser();
+});
+$app->post('\/users\/save', function () use ($userController) {
+	return $userController->updateUser();
+});
+$app->post('\/users\/delete', function () use ($userController) {
+	return $userController->deleteUser();
 });
 
 $app->run(new \Layout\MainLayout());

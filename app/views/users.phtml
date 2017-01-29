@@ -1,16 +1,36 @@
 <?php
 /**
- * @var $users array -- Список всех пользователей
+ * @var array $users -- Список всех пользователей
+ * @var boolean $canDeleteUser
+ * @var boolean $canChangeRights
  */
 
 if (!empty($users)) {
 	foreach ($users as $user) { ?>
 		<div class="user">
-			<span><?=$user['names']?></span> --
-			<span><?=$user['login']?></span>
-			
-			<div class="status">
-				<span>статус на сайте: <?=$user['activity_status']?></span>
+			<div class="user-info">
+				<div>Имя: <?=$user['names']?>&nbsp;<?=$user['surname']?></div>
+				<div>Логин: <?=$user['login']?></div>
+				
+				<div class="status">
+					<span>статус на сайте: <?=$user['activity_status']?></span>
+				</div>
+			</div>
+
+			<div class="user-actions">
+				<?php if ($canChangeRights) { ?>
+					<form action="/users/edit" method="get">
+						<input type="hidden" name="user" value="<?=$user['id']?>">
+						<input type="submit" value="Редактировать" class="btn">
+					</form>
+				<?php } ?>
+				<?php if ($canDeleteUser) { ?>
+					<form action="/users/delete" method="post" class="delete-user-form" id="delete-user-form-<?=$user['id']?>">
+						<input type="hidden" name="user" value="<?=$user['id']?>">
+						<div class="btn cancel">Удалить</div>
+						<input type="submit" value="" style="display: none;">
+					</form>
+				<?php } ?>
 			</div>
 		</div>
 <?php }} ?>

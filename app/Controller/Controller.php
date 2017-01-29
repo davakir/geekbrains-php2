@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use Blog\Rights;
 use Model\Articles\Article;
 use Model\CurrentUser;
 use Repository\ArticleRepository;
@@ -31,7 +32,12 @@ class Controller extends AbstractController
 	 */
 	public function articles()
 	{
-		$articles = (new ArticleRepository())->getAllArticles();
+		$articles = [];
+		foreach ((new ArticleRepository())->getAllArticles() as $rawArticle)
+		{
+			$articles[] = new Article($rawArticle);
+		}
+		
 		$permissions = [];
 		
 		if (CurrentUser::getInstance())
@@ -42,7 +48,8 @@ class Controller extends AbstractController
 		return [
 			'content' => $this->_view->render('articles', [
 				'articles' => $articles,
-				'permissions' => $permissions
+				'canDelete' => Rights::hasPermission(Rights::DELETE_ARTICLE, $permissions),
+				'canEdit' => Rights::hasPermission(Rights::EDIT_ARTICLE, $permissions)
 			]),
 			'title' => 'Статьи'
 		];
@@ -81,7 +88,7 @@ class Controller extends AbstractController
 	public function createArticle()
 	{
 		return [
-			'content' => $this->_view->render('new-article'),
+			'content' => $this->_view->render('article-create'),
 			'title' => 'Создание статьи'
 		];
 	}
@@ -97,18 +104,49 @@ class Controller extends AbstractController
 		$this->_redirect('/articles');
 	}
 	
+	public function deleteArticle()
+	{
+		$articleId = $_POST['article'];
+		(new ArticleRepository())->deleteArticle($articleId);
+		$this->_redirect('/articles');
+	}
+	
+	public function editArticle()
+	{
+		return [
+			'content' => $this->_view->render('article-edit', [
+				'article' => (new ArticleRepository())->getArticleById($_GET['article'])
+			]),
+			'title' => 'Редактирование статьи'
+		];
+	}
+	
+	public function updateArticle()
+	{
+		$this->__updateArticle($_POST);
+		
+		$this->_redirect('/articles');
+	}
+	
 	private function __saveArticle(array $data)
 	{
-		$title = $data['title'];
-		$content = $data['content'];
-		$author = 0;
-		
-		$article = new Article([
-			'title' => $title,
-			'content' => $content,
-			'author' => $author
-		]);
-		
-		(new ArticleRepository())->saveArticle($article);
+		(new ArticleRepository())->saveArticle(
+			new Article([
+				'title' => $data['title'],
+				'content' => $data['content'],
+				'author' => CurrentUser::getInstance()->getId()
+			])
+		);
+	}
+	
+	private function __updateArticle(array $data)
+	{
+		(new ArticleRepository())->updateArticle(
+			new Article([
+				'id' => $data['article'],
+				'title' => $data['title'],
+				'content' => $data['content']
+			])
+		);
 	}
 }

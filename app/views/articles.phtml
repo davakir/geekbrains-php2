@@ -1,32 +1,37 @@
 <?php
 /**
- * @var $articles array -- Список всех статей
- * @var $permissions array -- Права, которые есть у пользователя, на операции со статьями
+ * @var array $articles -- Список всех статей
+ * @var boolean $canEdit -- Право редактировать статьи
+ * @var boolean $canDelete -- Право удалять статьи
  */
 ?>
 <section class="articles">
-	<?php if (in_array('create_article', $permissions)) { ?>
-		<form action="/article/create" method="get">
-			<input type="submit" value="Создать статью" class="btn">
-		</form>
-	<?php } ?>
+	<form action="/articles/create" method="get">
+		<input type="submit" value="Создать статью" class="btn">
+	</form>
 	<?php if (!empty($articles)) { ?>
-		<?php foreach ($articles as $article) { ?>
+		<?php
+		/** @var \Model\Articles\Article $article */
+		foreach ($articles as $article) { ?>
 			<div class="article">
 				<div class="article-title">
-					<?=$article['title']?>
+					<?=$article->getTitle()?>
 				</div>
 				<div class="article-content">
-					<?php if (!empty($article['content'])) echo $article['content']; else echo '&nbsp;'; ?>
+					<?php if (!empty($article->getContent())) echo $article->getPreviewText() . '...'; else echo '&nbsp;'; ?>
 				</div>
-				<div class="edit-article">
-					<form action="/article/<?=$article['id']?>/edit" method="get">
-						<?php if (in_array('edit_article', $permissions)) { ?>
+				<div class="article-actions">
+					<form action="/articles/edit" method="get">
+						<input type="hidden" name="article" value="<?=$article->getId()?>">
+						<?php if ($canEdit) { ?>
 							<input type="submit" value="Редактировать" class="btn">
 						<?php } ?>
-						
-						<?php if (in_array('delete_article', $permissions)) { ?>
-							<input type="submit" value="Удалить" class="btn cancel">
+					</form>
+					<form action="/articles/delete" method="post" class="delete-article-form" id="delete-article-form-<?=$article->getId()?>">
+						<input type="hidden" name="article" value="<?=$article->getId()?>">
+						<?php if ($canDelete) { ?>
+							<div class="btn cancel">Удалить</div>
+							<input type="submit" value="" style="display: none;">
 						<?php } ?>
 					</form>
 				</div>

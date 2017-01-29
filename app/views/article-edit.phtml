@@ -1,16 +1,22 @@
-<form action="/article/create/send" method="post" id="new-article-form">
+<?php
+/**
+ * @var array $article
+ */
+?>
+<form action="/articles/save" method="post" id="save-article-form">
+	<input type="hidden" value="<?=$article['id']?>" name="article">
 	<div class="form-item">
 		<label for="title">
 			<div>
 				Заголовок статьи
 			</div>
-			<input type="text" name="title" id="title">
+			<input type="text" name="title" id="title" value="<?=$article['title']?>">
 		</label>
 	</div>
 	<div class="form-item">
 		<label for="content">
 			<div>Содержимое</div>
-			<textarea name="content" id="content" cols="30" rows="15"></textarea>
+			<textarea name="content" id="content" cols="30" rows="15"><?=$article['content']?></textarea>
 		</label>
 	</div>
 	<div>

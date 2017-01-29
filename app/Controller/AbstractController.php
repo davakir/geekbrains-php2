@@ -4,6 +4,7 @@ namespace Controller;
 
 
 use Blog\App\View;
+use Model\CurrentUser;
 
 /**
  * Class AbstractController
@@ -25,5 +26,15 @@ abstract class AbstractController
 	{
 		$location = 'Location: ' . $string;
 		header($location, true, 302);
+	}
+	
+	/**
+	 * Проверяет, авторизован пользователь или нет.
+	 *
+	 * @return bool
+	 */
+	protected function _isAuthorized()
+	{
+		return (!empty(CurrentUser::getInstance())) ? true : false;
 	}
 }

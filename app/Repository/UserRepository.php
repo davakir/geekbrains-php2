@@ -15,18 +15,27 @@ class UserRepository extends BaseRepository
 	public function getAllUsers()
 	{
 		$users = $this->_adapter->query(
-			'SELECT u.*, MAX(s.date_last_activity) as date_last_activity 
-				FROM sessions s
-				LEFT JOIN users u
-				ON u.id = s.user_id
-				GROUP BY s.user_id'
+			'SELECT * FROM users'
+		)->fetchAll();
+		$sessions = $this->_adapter->query(
+			'SELECT user_id, MAX(date_last_activity) as date_last_activity FROM sessions GROUP BY user_id'
 		)->fetchAll();
 		
 		foreach ($users as &$user)
 		{
-			$user['activity_status'] =
-				((time() - strtotime($user['date_last_activity'])) > $this->offlineTimeout)
-				? 'offline' : 'online';
+			foreach ($sessions as $session)
+			{
+				if ($session['user_id'] == $user['id'])
+				{
+					$user['date_last_activity'] = $session['date_last_activity'];
+					$user['activity_status'] =
+						((time() - strtotime($user['date_last_activity'])) > $this->offlineTimeout)
+							? 'offline' : 'online';
+					break;
+				}
+			}
+			if (empty($user['activity_status']))
+				$user['activity_status'] = 'offline';
 		}
 		
 		return $users;
@@ -99,5 +108,31 @@ class UserRepository extends BaseRepository
 			'names' => $user->getNames(),
 			'role_id' => $user->getRoleId()
 		]);
+	}
+	
+	/**
+	 * @param integer $userId
+	 */
+	public function deleteUser($userId)
+	{
+		$this->_adapter->query(
+			'DELETE FROM users WHERE id = ?',
+			[$userId]
+		);
+	}
+	
+	public function updateUser(User $user)
+	{
+		$this->_adapter->query(
+			'UPDATE users SET login = ?, names = ?, surname = ?, email = ?, role_id = ? WHERE id = ?',
+			[
+				$user->getLogin(),
+				$user->getNames(),
+				$user->getSurname(),
+				$user->getEmail(),
+				$user->getRoleId(),
+				$user->getId()
+			]
+		);
 	}
 }

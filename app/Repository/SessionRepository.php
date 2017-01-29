@@ -21,7 +21,11 @@ class SessionRepository extends BaseRepository
 		]);
 	}
 	
-	public function removePreviousUserSessions($userId)
+	/**
+	 * @param integer $userId
+	 * @return $this
+	 */
+	public function removeUserSessions($userId)
 	{
 		return $this->_adapter->query(
 			'DELETE FROM sessions WHERE user_id = ?',
@@ -42,6 +46,10 @@ class SessionRepository extends BaseRepository
 		);
 	}
 	
+	/**
+	 * @param string $sid
+	 * @return array
+	 */
 	public function getSessionBySid($sid)
 	{
 		return $this->_adapter->query(
@@ -50,11 +58,14 @@ class SessionRepository extends BaseRepository
 		)->fetch();
 	}
 	
+	/**
+	 * @param string $sid
+	 */
 	public function deleteSession($sid)
 	{
 		$this->_adapter->query(
 			'DELETE FROM sessions WHERE sid = ?',
-			$sid
+			[$sid]
 		);
 	}
 }

@@ -23,4 +23,14 @@ class RightsRepository extends BaseRepository
 		}
 		return $result;
 	}
+	
+	/**
+	 * @return array
+	 */
+	public function getAllRoles()
+	{
+		return $this->_adapter->query(
+			'SELECT * FROM roles'
+		)->fetchAll();
+	}
 }

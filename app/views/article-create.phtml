@@ -1,0 +1,20 @@
+<form action="/articles/create/send" method="post" id="new-article-form">
+	<div class="form-item">
+		<label for="title">
+			<div>
+				Заголовок статьи
+			</div>
+			<input type="text" name="title" id="title" value="">
+		</label>
+	</div>
+	<div class="form-item">
+		<label for="content">
+			<div>Содержимое</div>
+			<textarea name="content" id="content" cols="30" rows="15"></textarea>
+		</label>
+	</div>
+	<div>
+		<input type="submit" value="Сохранить" class="btn submit">
+		<a href="/articles" class="btn cancel">Отмена</a>
+	</div>
+</form>
