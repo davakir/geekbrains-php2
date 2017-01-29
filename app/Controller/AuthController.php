@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Blog\Auth;
+use Model\CurrentUser;
 use Model\User;
 use Repository\UserRepository;
 
@@ -16,6 +17,8 @@ class AuthController extends AbstractController
 	 */
 	public function register()
 	{
+		if (CurrentUser::getInstance())
+			$this->_redirect('/');
 		return [
 			'content' => $this->_view->render('registration'),
 			'title' => 'Регистрация'
@@ -131,9 +134,10 @@ class AuthController extends AbstractController
 		
 		$login = $data['login'];
 		$result['login']['value'] = $login;
-		// TODO добавить проверку на существование логина
+		if ((new UserRepository())->doesLoginExist($login))
+			$result['login']['error'][] = 'Такой логин уже существует, придумайте другой';
 		if (!preg_match('/^[0-9a-zA-Z_.-]{3,128}$/', $login)) {
-			$result['login']['error'] = 'Логин должен содержать только латинские буквы, цифры, 
+			$result['login']['error'][] = 'Логин должен содержать только латинские буквы, цифры, 
 			-, ., _ и должен быть от 3 до 128 символов';
 		}
 		$email = $data['email'];
@@ -155,9 +159,9 @@ class AuthController extends AbstractController
 		$passwordRepeat = $data['password-repeat'];
 		$result['password']['value'] = $password;
 		if ($password !== $passwordRepeat)
-			$result['password']['error'] = 'Пароли не совпадают';
+			$result['password']['error'][] = 'Пароли не совпадают';
 		if (mb_strlen($password, 'UTF-8') > 255 || mb_strlen($password, 'UTF-8') < 6)
-			$result['password']['error'] = 'Длина пароля должна быть от 6 до 20 символов';
+			$result['password']['error'][] = 'Длина пароля должна быть от 6 до 20 символов';
 		
 		return $result;
 	}

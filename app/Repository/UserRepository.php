@@ -57,6 +57,20 @@ class UserRepository extends BaseRepository
 	
 	/**
 	 * @param string $login
+	 * @return bool
+	 */
+	public function doesLoginExist($login)
+	{
+		$result = $this->_adapter->query(
+			'SELECT * FROM users WHERE login = ?',
+			[$login]
+		)->fetch();
+		
+		return $result ? true : false;
+	}
+	
+	/**
+	 * @param string $login
 	 * @return int
 	 */
 	public function getUserIdByLogin($login)
@@ -121,6 +135,9 @@ class UserRepository extends BaseRepository
 		);
 	}
 	
+	/**
+	 * @param User $user
+	 */
 	public function updateUser(User $user)
 	{
 		$this->_adapter->query(

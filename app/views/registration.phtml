@@ -11,7 +11,9 @@
 <form action="/register/send" method="post" id="register-form">
 	<div class="form-item">
 		<?php if (!empty($userData['login']['error'])) { ?>
-			<div class="error"><?=$userData['login']['error']?></div>
+			<?php foreach ($userData['login']['error'] as $error) { ?>
+				<div class="error"><?=$error?></div>
+			<?php } ?>
 		<?php } ?>
 		<label for="login">
 			<div>
@@ -22,7 +24,9 @@
 	</div>
 	<div class="form-item">
 		<?php if (!empty($userData['email']['error'])) { ?>
-			<div class="error"><?=$userData['email']['error']?></div>
+			<?php foreach ($userData['email']['error'] as $error) { ?>
+				<div class="error"><?=$error?></div>
+			<?php } ?>
 		<?php } ?>
 		<label for="email">
 			<div>
@@ -33,7 +37,9 @@
 	</div>
 	<div class="form-item">
 		<?php if (!empty($userData['names']['error'])) { ?>
-			<div class="error"><?=$userData['names']['error']?></div>
+			<?php foreach ($userData['names']['error'] as $error) { ?>
+				<div class="error"><?=$error?></div>
+			<?php } ?>
 		<?php } ?>
 		<label for="names">
 			<div>
@@ -44,7 +50,9 @@
 	</div>
 	<div class="form-item">
 		<?php if (!empty($userData['surname']['error'])) { ?>
-			<div class="error"><?=$userData['surname']['error']?></div>
+			<?php foreach ($userData['surname']['error'] as $error) { ?>
+				<div class="error"><?=$error?></div>
+			<?php } ?>
 		<?php } ?>
 		<label for="surname">
 			<div>
@@ -55,7 +63,9 @@
 	</div>
 	<div class="form-item">
 		<?php if (!empty($userData['password']['error'])) { ?>
-			<div class="error"><?=$userData['password']['error']?></div>
+			<?php foreach ($userData['password']['error'] as $error) { ?>
+				<div class="error"><?=$error?></div>
+			<?php } ?>
 		<?php } ?>
 		<label for="password">
 			<div>
